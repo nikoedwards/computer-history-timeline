@@ -892,7 +892,7 @@
         </div>
 
         <div class="timeline-item" style="animation-delay: 0.02s">
-            <div class="event-card" data-year="1614" data-title="对数表" data-type="event" data-image="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Napiers_Bones.jpg/1200px-Napiers_Bones.jpg" data-detail="<p>苏格兰数学家约翰·纳皮尔发明了对数，大大简化了乘除法等复杂计算。</p><p>对数的核心思想是将乘法转换为加法，将除法转换为减法。这一发明使得天文学家、航海家能够更快速地进行大规模数值计算。</p><p>查表+加减就能完成复杂运算，一个熟练计算员几分钟就能算完一道天体物理题。</p>">
+            <div class="event-card" data-year="1614" data-title="对数表" data-type="event" data-image="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Napiers_Bones.jpg/1200px-Napiers_Bones.jpg" data-detail-id="logarithm-detail" data-detail="<p>苏格兰数学家约翰·纳皮尔发明了对数，大大简化了乘除法等复杂计算。</p><p>对数的核心思想是将乘法转换为加法，将除法转换为减法。这一发明使得天文学家、航海家能够更快速地进行大规模数值计算。</p>">
                 <div class="event-year">1614</div>
                 <div class="event-title">对数表</div>
                 <div class="event-desc">约翰·纳皮尔发明对数，简化复杂计算</div>
@@ -1427,10 +1427,18 @@
 
         document.querySelectorAll('.milestone-card, .event-card').forEach(card => {
             card.addEventListener('click', function() {
+                let detail = this.dataset.detail;
+                // 如果有 data-detail-id，从 template 加载内容
+                if (this.dataset.detailId) {
+                    const template = document.getElementById(this.dataset.detailId);
+                    if (template) {
+                        detail = template.innerHTML;
+                    }
+                }
                 const data = {
                     year: this.dataset.year,
                     title: this.dataset.title,
-                    detail: this.dataset.detail,
+                    detail: detail,
                     image: this.dataset.image || null
                 };
                 openDetail(data);
@@ -1457,5 +1465,40 @@
             }
         });
     </script>
+
+    <!-- 详细内容模板 -->
+    <template id="logarithm-detail">
+        <div class="detail-content">
+            <p>苏格兰数学家约翰·纳皮尔发明了对数，大大简化了乘除法等复杂计算。</p>
+            <p>对数的核心思想是将乘法转换为加法，将除法转换为减法。这一发明使得天文学家、航海家能够更快速地进行大规模数值计算。</p>
+            <hr>
+            <h3>真实计算案例：万有引力计算</h3>
+            <p>让我们用真实的天文计算来演示对数表的威力——计算地球对一个1000kg物体的引力。</p>
+            <table>
+                <tr><th>参数</th><th>数值</th></tr>
+                <tr><td>G</td><td>6.67×10⁻¹¹</td></tr>
+                <tr><td>M</td><td>5.97×10²⁴ kg</td></tr>
+                <tr><td>m</td><td>1000 kg</td></tr>
+                <tr><td>r</td><td>6.37×10⁶ m</td></tr>
+            </table>
+            <p><strong>万有引力公式：</strong> F = GMm/r²</p>
+            <p><strong>第一步：转换为对数形式</strong></p>
+            <p>logF = logG + logM + logm - 2logr</p>
+            <p><strong>第二步：查对数表</strong></p>
+            <ul>
+                <li>log(G) = log(6.67×10⁻¹¹) = 0.8248 - 11 = -10.1752</li>
+                <li>log(M) = log(5.97×10²⁴) = 0.7767 + 24 = 24.7767</li>
+                <li>log(m) = log(1000) = 3</li>
+                <li>log(r) = log(6.37×10⁶) = 0.8041 + 6 = 6.8041</li>
+            </ul>
+            <p><strong>第三步：计算</strong></p>
+            <p>logF = -10.1752 + 24.7767 + 3 - 2×6.8041 = 3.9933</p>
+            <p><strong>第四步：查反对数表</strong></p>
+            <p>F ≈ 9.83 × 10³ = 9830 N</p>
+            <p><strong>真实值：</strong> F ≈ 9810 N</p>
+            <p><strong>误差仅 0.2%！</strong></p>
+            <p>这就是当年计算员的真实工作流程：查表→记录→加减→查反对数→记录结果。一个熟练计算员几分钟就能完成这种计算。</p>
+        </div>
+    </template>
 </body>
 </html>

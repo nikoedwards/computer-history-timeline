@@ -1323,8 +1323,9 @@
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
-                const targetId = this.getAttribute('href');
-                const target = document.querySelector(targetId + '-item');
+                const targetId = this.getAttribute('href').substring(1); // 去掉 #
+                // 优先查找 era-marker，如果没有则查找 timeline-item
+                const target = document.querySelector('#' + targetId) || document.querySelector('#' + targetId + '-item');
                 if (target) {
                     const headerOffset = 100;
                     const elementPosition = target.getBoundingClientRect().top;

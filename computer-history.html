@@ -365,7 +365,7 @@
         .milestone-card {
             background: var(--bg-card);
             border-radius: 16px;
-            padding: 20px 24px;
+            padding: 20px 120px 20px 24px;
             cursor: pointer;
             transition: all 0.3s ease-out;
             border: 2px solid transparent;
@@ -373,6 +373,25 @@
             overflow: hidden;
             width: 100%;
             max-width: 100%;
+        }
+
+        /* 里程碑卡片缩略图 */
+        .milestone-thumb {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            object-fit: cover;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+        }
+
+        .milestone-card:hover .milestone-thumb {
+            opacity: 1;
+            transform: translateY(-50%) scale(1.1);
         }
 
         .milestone-card::before {
@@ -1304,6 +1323,15 @@
     </footer>
 
     <script>
+        // 为 milestone-card 添加缩略图
+        document.querySelectorAll('.milestone-card[data-image]').forEach(card => {
+            const img = document.createElement('img');
+            img.src = card.dataset.image;
+            img.className = 'milestone-thumb';
+            img.alt = card.dataset.title || '里程碑图片';
+            card.appendChild(img);
+        });
+
         // 创建背景粒子
         function createParticles() {
             const bgEffects = document.querySelector('.bg-effects');
